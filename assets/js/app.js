@@ -4,12 +4,11 @@
 // 2H = 2 of Hearts     (Corazones)
 // 2S = 2 of Spades     (Pica)
 
-// acá es donde estan las cartas listas para dar
 let deck = [];
-// tipos de letras de las cartas
+
 const tipos = ["C", "D", "H", "S"];
-// cartas que no son numeros
 const especiales = ["A", "J", "Q", "K"];
+
 let puntosJugador = 0;
 let puntosComputadora = 0;
 
@@ -24,7 +23,7 @@ const puntosComputadoraHTML = document.querySelectorAll("small")[1];
 const divJugadorCartas = document.querySelector("#jugador-cartas");
 const divComputadoraCartas = document.querySelector("#computadora-cartas");
 
-// Con esta funcion creo una nueva barajas (seria como mezclar y tener el maso listo para dar)
+// Con esta funcion creo una nueva barajas
 const crearDeck = () => {
   let deck = [];
   for (let i = 2; i <= 10; i++) {
@@ -32,7 +31,6 @@ const crearDeck = () => {
       deck.push(`${i}${tipo}`);
     }
   }
-
   for (const especial of especiales) {
     for (const tipo of tipos) {
       deck.push(`${especial}${tipo}`);
@@ -48,6 +46,7 @@ const pedirCarta = () => {
     throw "No hay cartas en la baraja";
   }
   // saco de la baraja la ultima carta y la retorno
+  // aca podemos hacer que sea random y no la ultima !!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const carta = deck.pop();
   return carta;
 };
@@ -69,17 +68,20 @@ const turnoComputadora = (puntosMinimos) => {
     const carta = pedirCarta();
     puntosComputadora += valorCarta(carta);
     puntosComputadoraHTML.innerText = puntosComputadora;
-    // creo la carta
+    // creo la carta en el DOM
     const imgCarta = document.createElement("img");
     imgCarta.src = `assets/cartas/${carta}.png`;
     imgCarta.classList.add("carta");
     divComputadoraCartas.append(imgCarta);
+    // si me paso salgo del while
     if (puntosMinimos > 21) {
       break;
     }
   } while (puntosComputadora < puntosMinimos && puntosMinimos <= 21);
+
+  // hago una pausa para que el DOM se actualice y recien mando los alert
+  // se podria usar otra cosa como una ventana modal por ejemplo !!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   setTimeout(() => {
-    // aca evaluo la situación de los puntos
     if (puntosComputadora === puntosMinimos) {
       alert("Nadie gana :(");
     } else if (puntosMinimos > 21) {
@@ -89,7 +91,8 @@ const turnoComputadora = (puntosMinimos) => {
     } else {
       alert("Computadora Gana");
     }
-  }, 500);
+  }, 100);
+
 };
 
 // Eventos de las referencias al HTML
