@@ -23,7 +23,7 @@ const puntosComputadoraHTML = document.querySelectorAll("small")[1];
 const divJugadorCartas = document.querySelector("#jugador-cartas");
 const divComputadoraCartas = document.querySelector("#computadora-cartas");
 
-// Con esta funcion creo una nueva barajas
+// Nueva baraja
 const crearDeck = () => {
   let deck = [];
   for (let i = 2; i <= 10; i++) {
@@ -40,22 +40,23 @@ const crearDeck = () => {
   return deck;
 };
 
+// Sacar una carta
 const pedirCarta = () => {
-  // antes tengo que preguntar si tengo cartas en el deck
   if (deck.length === 0) {
     throw "No hay cartas en la baraja";
   }
-  // saco de la baraja la ultima carta y la retorno
-  // aca podemos hacer que sea random y no la ultima !!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // aca podemos hacer que sea random y no la ultima !!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!
   const carta = deck.pop();
   return carta;
 };
 
+// devuelve el puntaje de la carta
 const valorCarta = (carta) => {
   const valor = carta.substring(0, carta.length - 1);
   return isNaN(valor) ? (valor === "A" ? 11 : 10) : valor * 1;
 };
 
+// elimino las carta de la pantalla
 const borrarCartas = (element) => {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
@@ -68,18 +69,17 @@ const turnoComputadora = (puntosMinimos) => {
     const carta = pedirCarta();
     puntosComputadora += valorCarta(carta);
     puntosComputadoraHTML.innerText = puntosComputadora;
+    
     // creo la carta en el DOM
     const imgCarta = document.createElement("img");
     imgCarta.src = `assets/cartas/${carta}.png`;
     imgCarta.classList.add("carta");
     divComputadoraCartas.append(imgCarta);
-    // si me paso salgo del while
+
     if (puntosMinimos > 21) {
       break;
     }
   } while (puntosComputadora < puntosMinimos && puntosMinimos <= 21);
-
-  // hago una pausa para que el DOM se actualice y recien mando los alert
   // se podria usar otra cosa como una ventana modal por ejemplo !!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   setTimeout(() => {
     if (puntosComputadora === puntosMinimos) {
@@ -92,7 +92,6 @@ const turnoComputadora = (puntosMinimos) => {
       alert("Computadora Gana");
     }
   }, 100);
-
 };
 
 // Eventos de las referencias al HTML
